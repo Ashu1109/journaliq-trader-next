@@ -11,7 +11,7 @@ export function Layout({ children }: LayoutProps) {
   const isMobile = useIsMobile();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className=" bg-background">
       <div
         className={cn(
           "container mx-auto transition-all duration-300",
