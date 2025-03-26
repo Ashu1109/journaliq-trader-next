@@ -1,23 +1,20 @@
-import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import Link from "next/link";
 import {
   ArrowRight,
-  TrendingUp,
+  BarChart4,
+  CalendarClock,
+  Clock,
+  Flame,
   Lightbulb,
   Shield,
-  BarChart4,
-  Clock,
-  CalendarClock,
-  Flame,
+  TrendingUp,
 } from "lucide-react";
-import Navbar from "@/components/Navbar";
+import Link from "next/link";
 
 export default function Landing() {
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
       {/* Hero Section */}
       <header className="relative overflow-hidden bg-gradient-to-r from-primary/10 to-primary/5 px-4 py-24 sm:py-32">
         <div className="absolute inset-0 z-0 opacity-30">

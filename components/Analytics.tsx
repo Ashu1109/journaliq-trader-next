@@ -17,7 +17,6 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { SubTitle } from "./ui-components";
 
 // Sample data for analytics
 const performanceData = [
@@ -57,11 +56,6 @@ export function Analytics() {
 
   return (
     <div className="space-y-8">
-      <header className="animate-slide-in">
-        <h1 className="text-3xl font-bold tracking-tight">Analytics</h1>
-        <SubTitle>Analyze your trading performance in depth</SubTitle>
-      </header>
-
       <div className="flex justify-end mb-4 animate-fade-in">
         <div className="flex items-center gap-2">
           {["1M", "3M", "6M", "YTD", "1Y", "All"].map((range) => (

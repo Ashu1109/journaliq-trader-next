@@ -1,8 +1,7 @@
 "use client";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -11,21 +10,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "lucide-react";
-import { SectionTitle, SubTitle, ProfitLossBadge } from "./ui-components";
-import { Card, CardContent } from "@/components/ui/card";
+import { ChangeEventHandler, useState } from "react";
+import { ProfitLossBadge, SubTitle } from "./ui-components";
+import { addJournal } from "@/actions/addJournal";
+import { toast } from "sonner";
 
 export function JournalEntry() {
   const [entryType, setEntryType] = useState("new");
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4">
       <header className="animate-slide-in">
         <h1 className="text-3xl font-bold tracking-tight">Trade Journal</h1>
         <SubTitle>Record and review your trading activity</SubTitle>
       </header>
 
-      <div className="flex justify-end mb-4 animate-fade-in">
+      <div className="flex justify-end mb-2 animate-fade-in">
         <div className="flex items-center gap-3">
           <Button
             variant={entryType === "new" ? "default" : "outline"}
@@ -48,21 +50,121 @@ export function JournalEntry() {
 }
 
 function NewEntryForm() {
+  const [formData, setFormData] = useState({
+    symbol: "",
+    type: "",
+    date: "",
+    quantity: 0,
+    price: 0.0,
+    takeProfit: 0.0,
+    stopLoss: 0.0,
+    tradeRationale: "",
+    notes: "",
+    emotions: [] as string[],
+  });
+  interface FormData {
+    symbol: string;
+    type: string;
+    date: string;
+    quantity: number;
+    price: number;
+    takeProfit: number;
+    stopLoss: number;
+    tradeRationale: string;
+    notes: string;
+    emotions: string[];
+  }
+
+  const [isLoading, setIsLoading] = useState(false);
+  const handleChange: ChangeEventHandler<
+    HTMLInputElement | HTMLTextAreaElement
+  > = (e) => {
+    const { id, value } = e.target;
+    setFormData((prevData: FormData) => ({
+      ...prevData,
+      [id]: value,
+    }));
+  };
+
+  const handleEmotionClick = (emotion: string) => {
+    setFormData((prevData) => {
+      if (prevData.emotions.includes(emotion)) {
+        return {
+          ...prevData,
+          emotions: prevData.emotions.filter((e) => e !== emotion),
+        };
+      } else {
+        return {
+          ...prevData,
+          emotions: [...prevData.emotions, emotion],
+        };
+      }
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      setIsLoading(true);
+      console.log("Form data before submission:", formData);
+      if (
+        !formData.date ||
+        !formData.symbol ||
+        !formData.type ||
+        !formData.tradeRationale ||
+        !formData.notes ||
+        !formData.quantity ||
+        !formData.price ||
+        !formData.takeProfit ||
+        !formData.stopLoss
+      ) {
+        toast.error("Please fill in all fields.");
+      }
+      await addJournal(formData);
+      setFormData({
+        symbol: "",
+        type: "",
+        date: "",
+        quantity: 0,
+        price: 0.0,
+        takeProfit: 0.0,
+        stopLoss: 0.0,
+        tradeRationale: "",
+        notes: "",
+        emotions: [],
+      });
+      setIsLoading(false);
+    } catch (error) {
+      console.log("Error adding journal entry:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <Card className="animate-fade-in">
       <CardContent className="p-6">
-        <form className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-4">
               <div>
                 <Label htmlFor="symbol">Symbol</Label>
-                <Input id="symbol" placeholder="e.g. AAPL" />
+                <Input
+                  id="symbol"
+                  placeholder="e.g. AAPL"
+                  value={formData.symbol}
+                  onChange={handleChange}
+                />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="type">Trade Type</Label>
-                  <Select>
+                  <Select
+                    onValueChange={(value) =>
+                      setFormData((prev) => ({ ...prev, type: value }))
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
@@ -78,7 +180,12 @@ function NewEntryForm() {
                 <div>
                   <Label htmlFor="date">Date</Label>
                   <div className="relative">
-                    <Input id="date" type="date" />
+                    <Input
+                      id="date"
+                      type="date"
+                      value={formData.date}
+                      onChange={handleChange}
+                    />
                     <div className="absolute right-3 top-2.5 pointer-events-none text-muted-foreground">
                       <Calendar size={16} />
                     </div>
@@ -89,24 +196,48 @@ function NewEntryForm() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="quantity">Quantity</Label>
-                  <Input id="quantity" type="number" placeholder="0" />
+                  <Input
+                    id="quantity"
+                    type="number"
+                    placeholder="0"
+                    value={formData.quantity}
+                    onChange={handleChange}
+                  />
                 </div>
 
                 <div>
                   <Label htmlFor="price">Price</Label>
-                  <Input id="price" type="number" placeholder="0.00" />
+                  <Input
+                    id="price"
+                    type="number"
+                    placeholder="0.00"
+                    value={formData.price}
+                    onChange={handleChange}
+                  />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="takeProfit">Take Profit</Label>
-                  <Input id="takeProfit" type="number" placeholder="0.00" />
+                  <Input
+                    id="takeProfit"
+                    type="number"
+                    placeholder="0.00"
+                    value={formData.takeProfit}
+                    onChange={handleChange}
+                  />
                 </div>
 
                 <div>
                   <Label htmlFor="stopLoss">Stop Loss</Label>
-                  <Input id="stopLoss" type="number" placeholder="0.00" />
+                  <Input
+                    id="stopLoss"
+                    type="number"
+                    placeholder="0.00"
+                    value={formData.stopLoss}
+                    onChange={handleChange}
+                  />
                 </div>
               </div>
             </div>
@@ -114,7 +245,11 @@ function NewEntryForm() {
             <div className="space-y-4">
               <div>
                 <Label htmlFor="tradeRationale">Trade Rationale</Label>
-                <Select>
+                <Select
+                  onValueChange={(value) =>
+                    setFormData((prev) => ({ ...prev, tradeRationale: value }))
+                  }
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select" />
                   </SelectTrigger>
@@ -138,6 +273,8 @@ function NewEntryForm() {
                   id="notes"
                   placeholder="Enter your thoughts about this trade..."
                   className="min-h-[180px] resize-none"
+                  value={formData.notes}
+                  onChange={handleChange}
                 />
               </div>
 
@@ -153,10 +290,16 @@ function NewEntryForm() {
                     "FOMO",
                   ].map((emotion) => (
                     <Button
+                      type="button"
                       key={emotion}
-                      variant="outline"
+                      variant={
+                        formData.emotions.includes(emotion)
+                          ? "default"
+                          : "outline"
+                      }
                       size="sm"
                       className="rounded-full"
+                      onClick={() => handleEmotionClick(emotion)}
                     >
                       {emotion}
                     </Button>
@@ -167,8 +310,12 @@ function NewEntryForm() {
           </div>
 
           <div className="pt-3 border-t flex justify-end gap-3">
-            <Button variant="outline">Cancel</Button>
-            <Button>Save Entry</Button>
+            <Button disabled={isLoading} variant="outline">
+              Cancel
+            </Button>
+            <Button disabled={isLoading} type="submit">
+              Save Entry
+            </Button>
           </div>
         </form>
       </CardContent>
