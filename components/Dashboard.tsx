@@ -229,7 +229,7 @@ export function Dashboard() {
                 key={insight.id}
                 title={insight.title}
                 description={insight.description}
-                type={insight.type}
+                type={insight.type as "tip" | "warning" | "pattern"}
               />
             ))}
           </div>

@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 import { ChartBar, FileText, Settings, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 
 const NavItem = ({
   to,
@@ -36,11 +35,6 @@ const NavItem = ({
 export function Navigation() {
   const location = usePathname();
   const isMobile = useIsMobile();
-  const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    setIsOpen(false);
-  }, [location]);
 
   const navItems = [
     { path: "/dashboard", label: "Dashboard", icon: ChartBar },

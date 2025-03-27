@@ -3,6 +3,20 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --color-candle-50: oklch(96.88% 0.0175 234.49);
+  --color-candle-100: oklch(94.01% 0.0326 238.14);
+  --color-candle-200: oklch(88.65% 0.0621 239.72);
+  --color-candle-300: oklch(82.21% 0.1 239.38);
+  --color-candle-400: oklch(74.87% 0.1399 243.86);
+  --color-candle-500: oklch(66.55% 0.1833 251.45);
+  --color-candle-600: oklch(57.8% 0.1901 254.97);
+  --color-candle-700: oklch(50.27% 0.168882 255.5623);
+  --color-candle-800: oklch(43.99% 0.147455 255.5018);
+  --color-candle-900: oklch(35.7% 0.1219 256);
+  --color-candle-950: oklch(26.63% 0.0844 253.88);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

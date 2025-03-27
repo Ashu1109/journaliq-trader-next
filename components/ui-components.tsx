@@ -139,7 +139,7 @@ export const InsightCard = ({
   type: "tip" | "warning" | "pattern";
   className?: string;
 }) => {
-  const icons = {
+  const icons: { [key: string]: string } = {
     tip: "💡",
     warning: "⚠️",
     pattern: "🔄",
