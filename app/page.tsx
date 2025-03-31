@@ -120,7 +120,7 @@ export default function Landing() {
       </header>
 
       {/* Features Section */}
-      <section className="py-16 md:py-24">
+      <section className="py-16 md:py-24" id="features">
         <div className="container mx-auto px-4">
           <div className="mb-12 text-center">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
@@ -220,7 +220,7 @@ export default function Landing() {
       </section>
 
       {/* How It Works */}
-      <section className="bg-muted/50 py-16 md:py-24">
+      <section className="bg-muted/50 py-16 md:py-24" id="about">
         <div className="container mx-auto px-4">
           <div className="mb-12 text-center">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
@@ -345,18 +345,58 @@ export default function Landing() {
       </section>
 
       {/* CTA */}
-      <section className="bg-primary text-primary-foreground py-16 md:py-24">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
-            Ready to Transform Your Trading?
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg">
-            Join thousands of Indian traders who are using AI to gain an edge in
-            the markets.
-          </p>
-          <Button size="lg" variant="secondary" className="mt-8" asChild>
-            <Link href="/dashboard">Get Started For Free</Link>
-          </Button>
+      <section
+        className="bg-primary text-primary-foreground py-16 md:py-24"
+        id="contact"
+      >
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div className="text-center md:text-left">
+              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+                Ready to Transform Your Trading?
+              </h2>
+              <p className="mt-4 max-w-2xl text-lg mx-auto md:mx-0">
+                Join thousands of Indian traders who are using AI to gain an
+                edge in the markets.
+              </p>
+              <div className="flex justify-center md:justify-start">
+                <Button size="lg" variant="secondary" className="mt-8" asChild>
+                  <Link href="/dashboard">Get Started For Free</Link>
+                </Button>
+              </div>
+            </div>
+
+            <div className="bg-primary-foreground/10 backdrop-blur-sm rounded-lg p-6 shadow-lg">
+              <h3 className="text-2xl font-bold mb-4">Get Early Access</h3>
+              <form className="space-y-2">
+                <div className="space-y-2">
+                  <label htmlFor="name" className="block text-sm font-medium">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    placeholder="Your name"
+                    className="w-full px-4 py-2 bg-primary-foreground/20 border border-primary-foreground/30 rounded-md text-primary-foreground placeholder:text-primary-foreground/70"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="email" className="block text-sm font-medium">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    placeholder="you@example.com"
+                    className="w-full px-4 py-2 bg-primary-foreground/20 border border-primary-foreground/30 rounded-md text-primary-foreground placeholder:text-primary-foreground/70"
+                  />
+                </div>
+                <Button className="w-full mt-4" variant="secondary">
+                  Subscribe Now
+                </Button>
+              </form>
+            </div>
+          </div>
         </div>
       </section>
 

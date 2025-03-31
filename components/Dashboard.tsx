@@ -95,11 +95,6 @@ export function Dashboard() {
           className="animate-fade-in [animation-delay:100ms]"
         />
         <MetricCard
-          label="Avg. Holding Time"
-          value="3.2 days"
-          className="animate-fade-in [animation-delay:150ms]"
-        />
-        <MetricCard
           label="Risk/Reward Ratio"
           value="1:2.4"
           change={{ value: 0.2, isPositive: true }}

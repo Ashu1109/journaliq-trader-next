@@ -96,10 +96,10 @@ const Navbar = () => {
   const location = usePathname();
 
   const navItems = [
-    { label: "About", path: "/about" },
-    { label: "Features", path: "/features" },
+    { label: "About", path: "http://localhost:3000/#about" },
+    { label: "Features", path: "http://localhost:3000/#features" },
     { label: "Pricing", path: "/pricing" },
-    { label: "Contact", path: "/contact" },
+    { label: "Contact", path: "http://localhost:3000/#contact" },
   ];
 
   return (
