@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useState } from "react";
+import { useJournalContext } from "@/context/ContextProvider";
+import { use, useState } from "react";
 import {
   Bar,
   BarChart,
@@ -17,6 +18,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { toast } from "sonner";
 
 // Sample data for analytics
 const performanceData = [
@@ -52,7 +54,22 @@ const timeData = [
 ];
 
 export function Analytics() {
-  const [timeRange, setTimeRange] = useState("3M");
+  const [timeRange, setTimeRange] = useState("1M");
+  const { userJournalSummary } = useJournalContext();
+  const AvgProfit =
+    userJournalSummary.noofJournal > 0
+      ? userJournalSummary.profit / userJournalSummary.noofJournal
+      : 0;
+  const AvgLoss =
+    userJournalSummary.noofJournal > 0
+      ? userJournalSummary.loss / userJournalSummary.noofJournal
+      : 0;
+  const ProfitFactor =
+    userJournalSummary.loss > 0
+      ? userJournalSummary.profit / userJournalSummary.loss
+      : userJournalSummary.profit > 0
+      ? 0
+      : 0;
 
   return (
     <div className="space-y-8">
@@ -63,7 +80,9 @@ export function Analytics() {
               key={range}
               variant={timeRange === range ? "default" : "outline"}
               size="sm"
-              onClick={() => setTimeRange(range)}
+              onClick={() => {
+                setTimeRange(range);
+              }}
             >
               {range}
             </Button>
@@ -71,7 +90,7 @@ export function Analytics() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="animate-fade-in">
           <CardHeader className="pb-2">
             <CardTitle>Profit/Loss by Month</CardTitle>
@@ -205,7 +224,7 @@ export function Analytics() {
             </div>
           </CardContent>
         </Card>
-      </div>
+      </div> */}
 
       <Card className="animate-fade-in [animation-delay:250ms]">
         <CardHeader className="pb-2">
@@ -224,23 +243,23 @@ export function Analytics() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <MetricBox
                   title="Average Profit"
-                  value="$324.58"
+                  value={`$${AvgProfit.toFixed(2)}`}
                   subtitle="per winning trade"
                   isPositive={true}
                 />
                 <MetricBox
                   title="Average Loss"
-                  value="$156.23"
+                  value={`$${AvgLoss.toFixed(2)}`}
                   subtitle="per losing trade"
                   isPositive={false}
                 />
                 <MetricBox
                   title="Profit Factor"
-                  value="2.08"
+                  value={`${ProfitFactor.toFixed(2)}`}
                   subtitle="ratio of gross profit to gross loss"
                   isPositive={true}
                 />
-                <MetricBox
+                {/* <MetricBox
                   title="Expectancy"
                   value="$174.22"
                   subtitle="expected profit per trade"
@@ -257,7 +276,7 @@ export function Analytics() {
                   value="1.68"
                   subtitle="risk-adjusted performance"
                   isPositive={true}
-                />
+                /> */}
               </div>
             </TabsContent>
 

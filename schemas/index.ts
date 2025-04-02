@@ -26,3 +26,16 @@ export const RegisterSchema = z.object({
     message: "Name is required",
   }),
 });
+
+export const JournalEntrySchema = z.object({
+  symbol: z.string(),
+  type: z.enum(["buy", "sell", "short", "cover"]),
+  date: z.string(),
+  quantity: z.string(),
+  price: z.string(),
+  takeProfit: z.string(),
+  stopLoss: z.string(),
+  tradeRationale: z.string(),
+  notes: z.string(),
+  emotions: z.array(z.string()),
+});

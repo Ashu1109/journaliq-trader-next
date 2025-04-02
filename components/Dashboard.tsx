@@ -19,6 +19,7 @@ import {
   SectionTitle,
   SubTitle,
 } from "./ui-components";
+import { useJournalContext } from "@/context/ContextProvider";
 
 const performanceData = [
   { date: "Jan", value: 4000, pnl: 2400 },
@@ -69,7 +70,18 @@ const insights = [
 ];
 
 export function Dashboard() {
-  const [timeRange, setTimeRange] = useState("1M");
+  const [timeRange, setTimeRange] = useState("1W");
+  const { userJournalSummary } = useJournalContext();
+  const totalPnL = userJournalSummary.profit + userJournalSummary.loss || 0;
+  const winRate =
+    userJournalSummary.noOfProfit > 0 && userJournalSummary.noofJournal > 0
+      ? (userJournalSummary.noOfProfit / userJournalSummary.noofJournal) * 100
+      : 0;
+  const riskRewardRatio =
+    userJournalSummary.noOfProfit > 0 && userJournalSummary.noOfLoss > 0
+      ? userJournalSummary.noOfProfit / userJournalSummary.noOfLoss
+      : 0;
+  const riskRewardFormated = `1:${riskRewardRatio.toFixed(2)}`;
 
   return (
     <div className="space-y-8">
@@ -83,20 +95,20 @@ export function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <MetricCard
           label="Total P&L"
-          value="+$12,480"
+          value={`${totalPnL > 0 ? "+" : ""}$${totalPnL.toFixed(2)}`}
           change={{ value: 8.2, isPositive: true }}
           variant="profit"
           className="animate-fade-in"
         />
         <MetricCard
           label="Win Rate"
-          value="68%"
+          value={`${winRate}%`}
           change={{ value: 4.5, isPositive: true }}
           className="animate-fade-in [animation-delay:100ms]"
         />
         <MetricCard
           label="Risk/Reward Ratio"
-          value="1:2.4"
+          value={`${riskRewardFormated}`}
           change={{ value: 0.2, isPositive: true }}
           className="animate-fade-in [animation-delay:200ms]"
         />

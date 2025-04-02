@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "UserJournalData" ADD COLUMN     "noOfLoss" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "noOfProfit" INTEGER NOT NULL DEFAULT 0;
