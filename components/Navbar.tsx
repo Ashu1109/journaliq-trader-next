@@ -1,11 +1,24 @@
 "use client";
-import { ArrowRight, Flame, LogIn } from "lucide-react";
+import { AlignJustify, ArrowRight, Flame, LogIn } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
 
 import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "./ui/sheet";
+import { Label } from "./ui/label";
+import { Input } from "./ui/input";
+import { useState } from "react";
 
 // const Navbar = () => {
 //   const [scrolled, setScrolled] = useState(false);
@@ -94,6 +107,10 @@ import { usePathname } from "next/navigation";
 const Navbar = () => {
   const { data: session } = useSession();
   const location = usePathname();
+  const [open, setOpen] = useState(false);
+  const onChange = () => {
+    setOpen(false);
+  };
 
   const navItems = [
     { label: "About", path: "http://localhost:3000/#about" },
@@ -105,7 +122,7 @@ const Navbar = () => {
   return (
     <div className="border-t py-6">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
+        <div className="flex  items-center justify-between gap-6 md:flex-row">
           <Link href={"/"}>
             <div className="flex items-center gap-2">
               <Flame className="h-6 w-6 text-primary" />
@@ -128,16 +145,100 @@ const Navbar = () => {
               </Link>
             ))}
           </nav>
+          <div className="md:hidden flex">
+            <Sheet open={open} onOpenChange={setOpen}>
+              <SheetTrigger asChild>
+                {/* <Button variant="outline"> */}
+                <AlignJustify className="mr-4 " />
+                {/* </Button> */}
+              </SheetTrigger>
+              <SheetContent>
+                <SheetHeader>
+                  <SheetTitle>Menu</SheetTitle>
+                  <SheetDescription asChild>
+                    <div className="text-sm text-muted-foreground">
+                      <span className="font-bold">Candle AI</span> is a powerful
+                      tool that helps you to create and manage your own AI
+                      assistant.
+                    </div>
+                  </SheetDescription>
+                </SheetHeader>
+                <div className="flex flex-col gap-2 py-4 justify-center items-center">
+                  <Button onClick={onChange} variant={"link"} asChild>
+                    <Link
+                      href={"/dashboard"}
+                      className={cn(
+                        " font-bold  transition-colors hover:text-candle-600",
+                        location === "/dashboard"
+                          ? "text-candle-600"
+                          : "text-foreground/80"
+                      )}
+                    >
+                      Dashboard
+                    </Link>
+                  </Button>
+                  {navItems.map((item) => (
+                    <Button
+                      onClick={onChange}
+                      key={item.path}
+                      variant={"link"}
+                      asChild
+                    >
+                      <Link
+                        href={item.path}
+                        className={cn(
+                          " font-bold  transition-colors hover:text-candle-600",
+                          location === item.path
+                            ? "text-candle-600"
+                            : "text-foreground/80"
+                        )}
+                      >
+                        {item.label}
+                      </Link>
+                    </Button>
+                  ))}
+                </div>
+
+                {/* <div className="grid gap-4 py-4">
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="name" className="text-right">
+                    Name
+                  </Label>
+                  <Input
+                    id="name"
+                    value="Pedro Duarte"
+                    className="col-span-3"
+                  />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="username" className="text-right">
+                    Username
+                  </Label>
+                  <Input
+                    id="username"
+                    value="@peduarte"
+                    className="col-span-3"
+                  />
+                </div>
+              </div> */}
+                {/* <SheetFooter>
+                <SheetClose asChild>
+                  <Button type="submit">Save changes</Button>
+                </SheetClose>
+              </SheetFooter> */}
+              </SheetContent>
+            </Sheet>
+          </div>
 
           {session?.user ? (
-            <Button size="lg" asChild>
+            <Button className="hidden md:flex" size="lg" asChild>
               <Link href="/dashboard" className=" text-lg font-bold">
                 Dashboard
                 <ArrowRight className="ml-1 h-4 w-4" />
               </Link>
             </Button>
           ) : (
-            <Button size="lg" asChild>
+            <Button className="hidden md:flex" size="lg" asChild>
               <Link href="/singup" className=" text-lg font-bold">
                 Login <LogIn className="ml-1 h-4 w-4" />
               </Link>
