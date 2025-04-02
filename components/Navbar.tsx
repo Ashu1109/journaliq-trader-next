@@ -6,19 +6,15 @@ import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import { useState } from "react";
 
 // const Navbar = () => {
 //   const [scrolled, setScrolled] = useState(false);
