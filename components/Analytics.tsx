@@ -2,56 +2,40 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useJournalContext } from "@/context/ContextProvider";
-import { use, useState } from "react";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  Legend,
-  Line,
-  LineChart,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
-import { toast } from "sonner";
+import { useState } from "react";
 
 // Sample data for analytics
-const performanceData = [
-  { month: "Jan", profit: 4000, loss: 1500 },
-  { month: "Feb", profit: 3000, loss: 3500 },
-  { month: "Mar", profit: 5000, loss: 2000 },
-  { month: "Apr", profit: 7000, loss: 1000 },
-  { month: "May", profit: 4500, loss: 2500 },
-  { month: "Jun", profit: 6000, loss: 1200 },
-];
+// const performanceData = [
+//   { month: "Jan", profit: 4000, loss: 1500 },
+//   { month: "Feb", profit: 3000, loss: 3500 },
+//   { month: "Mar", profit: 5000, loss: 2000 },
+//   { month: "Apr", profit: 7000, loss: 1000 },
+//   { month: "May", profit: 4500, loss: 2500 },
+//   { month: "Jun", profit: 6000, loss: 1200 },
+// ];
 
-const winLossData = [
-  { name: "Winning Trades", value: 68, color: "#16a249" },
-  { name: "Losing Trades", value: 32, color: "#DF2026" },
-];
+// const winLossData = [
+//   { name: "Winning Trades", value: 68, color: "#16a249" },
+//   { name: "Losing Trades", value: 32, color: "#DF2026" },
+// ];
 
-const strategyData = [
-  { name: "Momentum", win: 35, loss: 12 },
-  { name: "Swing", win: 22, loss: 8 },
-  { name: "Breakout", win: 18, loss: 15 },
-  { name: "Reversal", win: 12, loss: 10 },
-  { name: "Scalping", win: 8, loss: 5 },
-];
+// const strategyData = [
+//   { name: "Momentum", win: 35, loss: 12 },
+//   { name: "Swing", win: 22, loss: 8 },
+//   { name: "Breakout", win: 18, loss: 15 },
+//   { name: "Reversal", win: 12, loss: 10 },
+//   { name: "Scalping", win: 8, loss: 5 },
+// ];
 
-const timeData = [
-  { time: "9:30", profit: 2800 },
-  { time: "10:30", profit: 3200 },
-  { time: "11:30", profit: 1800 },
-  { time: "12:30", profit: 1200 },
-  { time: "13:30", profit: 1600 },
-  { time: "14:30", profit: 2200 },
-  { time: "15:30", profit: 3600 },
-];
+// const timeData = [
+//   { time: "9:30", profit: 2800 },
+//   { time: "10:30", profit: 3200 },
+//   { time: "11:30", profit: 1800 },
+//   { time: "12:30", profit: 1200 },
+//   { time: "13:30", profit: 1600 },
+//   { time: "14:30", profit: 2200 },
+//   { time: "15:30", profit: 3600 },
+// ];
 
 export function Analytics() {
   const [timeRange, setTimeRange] = useState("1M");
