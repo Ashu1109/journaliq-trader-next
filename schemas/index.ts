@@ -29,7 +29,7 @@ export const RegisterSchema = z.object({
 
 export const JournalEntrySchema = z.object({
   symbol: z.string(),
-  type: z.enum(["buy", "sell", "short", "cover"]),
+  type: z.enum(["buy", "sell"]),
   date: z.string(),
   quantity: z.string(),
   price: z.string(),

@@ -55,7 +55,7 @@ function NewEntryForm() {
   const [formData, setFormData] = useState<z.infer<typeof JournalEntrySchema>>({
     symbol: "",
     type: "buy",
-    date: "",
+    date: new Date().toISOString().split("T")[0],
     quantity: "",
     price: "",
     takeProfit: "",
@@ -109,13 +109,14 @@ function NewEntryForm() {
         !formData.stopLoss
       ) {
         toast.error("Please fill in all fields.");
+        return;
       }
 
       await addJournal(formData);
       setFormData({
         symbol: "",
         type: "buy",
-        date: "",
+        date: new Date().toISOString().split("T")[0],
         quantity: "",
         price: "",
         takeProfit: "",
@@ -155,7 +156,7 @@ function NewEntryForm() {
                     onValueChange={(value) =>
                       setFormData((prev) => ({
                         ...prev,
-                        type: value as "buy" | "sell" | "short" | "cover",
+                        type: value as "buy" | "sell",
                       }))
                     }
                   >
@@ -165,8 +166,6 @@ function NewEntryForm() {
                     <SelectContent>
                       <SelectItem value="buy">Buy</SelectItem>
                       <SelectItem value="sell">Sell</SelectItem>
-                      <SelectItem value="short">Short</SelectItem>
-                      <SelectItem value="cover">Cover</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -213,7 +212,7 @@ function NewEntryForm() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="takeProfit">Take Profit/L oss</Label>
+                  <Label htmlFor="takeProfit">Take Profit/Loss</Label>
                   <Input
                     id="takeProfit"
                     type="number"
@@ -238,27 +237,12 @@ function NewEntryForm() {
 
             <div className="space-y-4">
               <div>
-                <Label htmlFor="tradeRationale">Trade Rationale</Label>
-                <Select
-                  onValueChange={(value) =>
-                    setFormData((prev) => ({ ...prev, tradeRationale: value }))
+                <Label htmlFor="tradeRationale">Trade Reason</Label>
+                <Input
+                  onChange={(value) =>
+                    setFormData((prev) => ({ ...prev, tradeRationale: value.target.value }))
                   }
-                >
-                  <SelectTrigger value={formData.tradeRationale}>
-                    <SelectValue placeholder="Select" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="technical">
-                      Technical Analysis
-                    </SelectItem>
-                    <SelectItem value="fundamental">
-                      Fundamental Analysis
-                    </SelectItem>
-                    <SelectItem value="news">News/Event</SelectItem>
-                    <SelectItem value="pattern">Chart Pattern</SelectItem>
-                    <SelectItem value="momentum">Momentum</SelectItem>
-                  </SelectContent>
-                </Select>
+                />
               </div>
 
               <div>
