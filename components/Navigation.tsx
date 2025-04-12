@@ -1,4 +1,5 @@
 "use client";
+import { useJournalContext } from "@/context/ContextProvider";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { ChartBar, FileText, Settings, TrendingUp } from "lucide-react";
@@ -43,6 +44,32 @@ export function Navigation() {
   ];
 
   const currentPath = location;
+  const {journal} = useJournalContext()
+  const isJournalEmpty = journal.length === 0;
+  // Redirect to dashboard if journal is empty
+  const shouldRedirectFromAnalysis = isJournalEmpty && currentPath === "/analysis";
+  const shouldRedirectFromDashboard = isJournalEmpty && currentPath === "/dashboard";
+  
+  // If we're on the analysis page but journal is empty, redirect to journal
+  if (shouldRedirectFromAnalysis || shouldRedirectFromDashboard) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-background/80 z-50">
+        <div className="text-center p-6 max-w-md">
+          <h2 className="text-xl font-semibold mb-2">Journal is empty</h2>
+          <p className="text-muted-foreground mb-4">
+            Please add some trades to your journal before accessing.
+          </p>
+          <Link 
+            href="/journal" 
+            className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-md"
+          >
+            <FileText className="mr-2" size={18} />
+            Go to Journal
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   const mobileNav = (
     <div className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t w-full animate-fade-in">

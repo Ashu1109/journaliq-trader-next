@@ -1,8 +1,6 @@
 "use client";
-import { AIInsights } from "@/components/AIInsights";
 import { Analytics } from "@/components/Analytics";
 import { Layout } from "@/components/Layout";
-import { SectionTitle } from "@/components/ui-components";
 
 const Analysis = () => {
   return (
@@ -19,10 +17,10 @@ const Analysis = () => {
           <Analytics />
         </section>
 
-        <section className="animate-fade-in [animation-delay:200ms]">
+        {/* <section className="animate-fade-in [animation-delay:200ms]">
           <SectionTitle>AI-Powered Insights</SectionTitle>
           <AIInsights />
-        </section>
+        </section> */}
       </div>
     </Layout>
   );

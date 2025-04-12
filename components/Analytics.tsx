@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useJournalContext } from "@/context/ContextProvider";
 import { useState } from "react";
 
@@ -42,18 +41,18 @@ export function Analytics() {
   const { userJournalSummary } = useJournalContext();
   const AvgProfit =
     userJournalSummary.noofJournal > 0
-      ? userJournalSummary.profit / userJournalSummary.noofJournal
+      ? userJournalSummary.profit / userJournalSummary.noOfProfit
       : 0;
   const AvgLoss =
     userJournalSummary.noofJournal > 0
-      ? userJournalSummary.loss / userJournalSummary.noofJournal
+      ? userJournalSummary.loss / userJournalSummary.noOfLoss
       : 0;
-  const ProfitFactor =
-    userJournalSummary.loss > 0
-      ? userJournalSummary.profit / userJournalSummary.loss
-      : userJournalSummary.profit > 0
-      ? 0
-      : 0;
+
+  const ProfitFactor = 
+    userJournalSummary.loss !== 0 
+      ? userJournalSummary.profit / Math.abs(userJournalSummary.loss) 
+      : userJournalSummary.profit > 0 ? Infinity : 0;
+
 
   return (
     <div className="space-y-8">
@@ -215,25 +214,19 @@ export function Analytics() {
           <CardTitle>Trade Analysis</CardTitle>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue="metrics">
-            <TabsList className="grid w-full grid-cols-4 mb-6">
-              <TabsTrigger value="metrics">Key Metrics</TabsTrigger>
-              <TabsTrigger value="patterns">Trading Patterns</TabsTrigger>
-              <TabsTrigger value="duration">Holding Periods</TabsTrigger>
-              <TabsTrigger value="symbols">Symbol Performance</TabsTrigger>
-            </TabsList>
+          <div className="grid w-full grid-cols-4 mb-6">Key Metrics</div>
 
-            <TabsContent value="metrics" className="space-y-4 animate-fade-in">
+              <div className="space-y-4 animate-fade-in">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <MetricBox
                   title="Average Profit"
-                  value={`$${AvgProfit.toFixed(2)}`}
+                  value={`₹${AvgProfit.toFixed(2)}`}
                   subtitle="per winning trade"
                   isPositive={true}
                 />
                 <MetricBox
                   title="Average Loss"
-                  value={`$${AvgLoss.toFixed(2)}`}
+                  value={`₹${AvgLoss.toFixed(2)}`}
                   subtitle="per losing trade"
                   isPositive={false}
                 />
@@ -262,26 +255,8 @@ export function Analytics() {
                   isPositive={true}
                 /> */}
               </div>
-            </TabsContent>
-
-            <TabsContent value="patterns">
-              <div className="h-96 flex items-center justify-center text-muted-foreground">
-                Select a time range to view detailed pattern analysis
               </div>
-            </TabsContent>
 
-            <TabsContent value="duration">
-              <div className="h-96 flex items-center justify-center text-muted-foreground">
-                Select a time range to view holding period analysis
-              </div>
-            </TabsContent>
-
-            <TabsContent value="symbols">
-              <div className="h-96 flex items-center justify-center text-muted-foreground">
-                Select a time range to view symbol performance
-              </div>
-            </TabsContent>
-          </Tabs>
         </CardContent>
       </Card>
     </div>

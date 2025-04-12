@@ -27,7 +27,7 @@ const Login = () => {
         email: formData.email,
         password: formData.password,
         redirect: false,
-        callbackUrl: "/dashboard",
+        callbackUrl: "/journal",
       });
       toast.success("Logged in successfully");
     } catch (error) {

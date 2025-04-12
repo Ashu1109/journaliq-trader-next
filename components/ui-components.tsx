@@ -48,13 +48,11 @@ const metricCardVariants = cva(
 export const MetricCard = ({
   label,
   value,
-  change,
   variant = "default",
   className,
 }: {
   label: string;
   value: string | number;
-  change?: { value: number; isPositive: boolean };
   variant?: "default" | "profit" | "loss";
   className?: string;
 }) => {
@@ -62,7 +60,7 @@ export const MetricCard = ({
     <div className={cn(metricCardVariants({ variant }), className)}>
       <p className="text-xs font-medium text-muted-foreground">{label}</p>
       <p className="text-2xl font-semibold">{value}</p>
-      {change && (
+      {/* {change && (
         <p
           className={cn(
             "text-xs",
@@ -72,7 +70,7 @@ export const MetricCard = ({
           {change.isPositive ? "+" : ""}
           {change.value}%
         </p>
-      )}
+      )} */}
     </div>
   );
 };
@@ -111,7 +109,7 @@ export const ProfitLossBadge = ({
   size?: "sm" | "default";
 }) => {
   const isProfit = value >= 0;
-  const textClass = isProfit ? "text-[#16a249]" : "loss-text";
+  const textClass = isProfit ? "text-[#16a249]" : " text-destructive/70";
   const formattedValue = `${isProfit ? "+" : ""}${value.toFixed(2)}%`;
 
   return (
@@ -120,7 +118,7 @@ export const ProfitLossBadge = ({
       className={cn(
         "font-medium",
         size === "sm" ? "text-xs px-2 py-0" : "px-2.5 py-0.5",
-        isProfit ? "border-[#16a249]" : "border-[hsl(var(--loss))]"
+        isProfit ? "border-[#16a249]" : " border-destructive/50",
       )}
     >
       <span className={textClass}>{formattedValue}</span>

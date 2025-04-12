@@ -52,6 +52,7 @@ model UserJournalData {
   id              String   @id @default(cuid())
   profit          Float
   loss            Float
+  pnl             Float    @default(0)
   noofJournal     Int
   noOfProfit      Int      @default(0)
   noOfLoss        Int      @default(0)

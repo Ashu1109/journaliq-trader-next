@@ -76,22 +76,19 @@ export const addJournal = async (
             increment: Number(quantity) * Number(price),
           },
           noOfProfit: {
-            increment: Number(takeProfit) > 0 ? 1 : 0,
+            increment: Number(takeProfit)-Number(stopLoss) >= 0 ? 1 : 0,
           },
           noOfLoss: {
-            increment: Number(takeProfit) < 0 ? 1 : 0,
+            increment:Number(takeProfit)-Number(stopLoss) < 0 ? 1 : 0,
           },
           profit: {
-            increment:
-              Number(takeProfit) > 0
-                ? Number(takeProfit) - Number(stopLoss)
-                : 0,
+            increment:Number(takeProfit)-Number(stopLoss) >= 0 ? Math.abs(Number(takeProfit)-Number(stopLoss)) : 0,
           },
           loss: {
-            increment:
-              Number(takeProfit) < 0
-                ? Number(stopLoss) - Number(takeProfit)
-                : 0,
+            increment:Number(takeProfit)-Number(stopLoss) < 0 ? Math.abs(Number(takeProfit)-Number(stopLoss)) : 0,
+          },
+          pnl: {
+            increment: Number(takeProfit),
           },
         },
       });
@@ -100,16 +97,19 @@ export const addJournal = async (
         data: {
           userId: session?.user.id,
           noofJournal: 1,
+          noOfProfit: Number(takeProfit)-Number(stopLoss) >= 0 ? 1 : 0,
+          noOfLoss: Number(takeProfit)-Number(stopLoss) < 0 ? 1 : 0,
           totalQuantity: Number(quantity),
           totalMoneySpent: Number(quantity) * Number(price),
-          profit:
-            Number(takeProfit) > 0 ? Number(takeProfit) - Number(stopLoss) : 0,
-          loss:
-            Number(takeProfit) < 0 ? Number(stopLoss) - Number(takeProfit) : 0,
+          profit: Number(takeProfit) - Number(stopLoss) >= 0 ? Math.abs(Number(takeProfit) - Number(stopLoss)) : 0,
+          loss: Number(takeProfit) - Number(stopLoss) < 0 ? Math.abs(Number(takeProfit) - Number(stopLoss)) : 0,
+          pnl: Number(takeProfit),
         },
       });
     }
     revalidatePath("/journal");
+    revalidatePath("/dashboard");
+    revalidatePath("/analysis");
     return {
       status: true,
       message: "Journal entry added successfully",

@@ -319,42 +319,6 @@ function NewEntryForm() {
 
 function JournalHistory() {
   const { journal } = useJournalContext();
-  // const entries = [
-  //   {
-  //     id: 1,
-  //     date: "Jul 18, 2023",
-  //     symbol: "AAPL",
-  //     type: "BUY",
-  //     quantity: 10,
-  //     price: 189.25,
-  //     pnl: 3.8,
-  //     notes:
-  //       "Technical breakout from consolidation pattern. Aimed for gap fill. Strong market conditions.",
-  //   },
-  //   {
-  //     id: 2,
-  //     date: "Jul 15, 2023",
-  //     symbol: "TSLA",
-  //     type: "SELL",
-  //     quantity: 5,
-  //     price: 271.33,
-  //     pnl: -2.1,
-  //     notes:
-  //       "Sold on resistance after earnings announcement. Price action looked weak and market sentiment was shifting.",
-  //   },
-  //   {
-  //     id: 3,
-  //     date: "Jul 11, 2023",
-  //     symbol: "NVDA",
-  //     type: "BUY",
-  //     quantity: 20,
-  //     price: 454.72,
-  //     pnl: 7.5,
-  //     notes:
-  //       "AI sentiment remains strong. Bought on support level with increased volume.",
-  //   },
-  // ];
-
   return (
     <div className="space-y-4 animate-fade-in">
       {journal.length > 1 ? (
@@ -377,7 +341,7 @@ function JournalHistory() {
                   </div>
 
                   <div className="text-sm text-muted-foreground mb-3">
-                    {entry.quantity} shares @ ${entry.price.toFixed(2)}
+                    {entry.quantity} shares @ ₹{entry.price.toFixed(2)}
                   </div>
 
                   <div className="text-sm">{entry.notes}</div>

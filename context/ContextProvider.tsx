@@ -28,6 +28,7 @@ type UserJournalEntrySummary = {
   noOfLoss: number;
   totalQuantity: number;
   totalMoneySpent: number;
+  pnl: number;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -54,6 +55,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
       totalMoneySpent: 0,
       noOfProfit: 0,
       noOfLoss: 0,
+      pnl: 0,
       createdAt: new Date(),
       updatedAt: new Date(),
     } as UserJournalEntrySummary);
