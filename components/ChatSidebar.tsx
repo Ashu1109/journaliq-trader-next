@@ -29,16 +29,18 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
     <>
       {/* Mobile menu button */}
       <button 
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white rounded-md shadow-md"
+        className="lg:hidden fixed top-4 right-4 z-50 p-2 bg-white rounded-md shadow-md"
         onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
       >
         {isMobileSidebarOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
 
-      {/* Sidebar */}
+      {/* Sidebar - on mobile: right side, on laptop: left side */}
       <div className={cn(
-        "bg-chat-sidebar w-80 fixed inset-y-0 left-0 z-40 transition-transform duration-300 transform lg:translate-x-0 border-r",
-        isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        "bg-blue-50 w-80 fixed inset-y-0 top-20 z-40 transition-transform duration-300 transform lg:translate-x-0",
+        "lg:left-0 lg:border-r", // On laptop: left side with right border
+        "right-0 border-l", // On mobile: right side with left border
+        isMobileSidebarOpen ? "translate-x-0" : "translate-x-full lg:translate-x-0"
       )}>
         <div className="flex flex-col h-full px-3 py-4">
           {/* New chat button */}

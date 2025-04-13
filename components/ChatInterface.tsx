@@ -135,7 +135,7 @@ const ChatInterface: React.FC = () => {
   }, [activeChat.messages]);
 
   return (
-    <div className="flex h-screen bg-white">
+    <div className="flex min-h-[90vh] bg-white">
       <ChatSidebar 
         chats={chats}
         activeChatId={activeChatId}
