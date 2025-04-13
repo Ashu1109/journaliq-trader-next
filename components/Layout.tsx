@@ -2,6 +2,7 @@
 import React from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Navigation } from "./Navigation";
+import ChatbotButton from "./ChatbotButton";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -18,6 +19,7 @@ export function Layout({ children }: LayoutProps) {
           isMobile ? "px-4 py-4 pb-24" : "px-6 py-8 pl-[220px] max-w-6xl"
         )}
       >
+        <ChatbotButton/>
         {children}
       </div>
       <Navigation />

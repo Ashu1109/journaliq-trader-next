@@ -111,7 +111,6 @@ function NewEntryForm() {
         toast.error("Please fill in all fields.");
         return;
       }
-
       await addJournal(formData);
       setFormData({
         symbol: "",
@@ -125,6 +124,7 @@ function NewEntryForm() {
         notes: "",
         emotions: [] as string[],
       });
+
       setIsLoading(false);
     } catch (error) {
       console.log("Error adding journal entry:", error);

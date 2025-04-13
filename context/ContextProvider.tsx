@@ -41,8 +41,10 @@ export const Context = React.createContext(
     setUserJournalSummary: React.Dispatch<
       React.SetStateAction<UserJournalEntrySummary>
     >;
+    getAllJournalData: () => Promise<void>;
   }
 );
+
 const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [journal, setJournal] = useState<JournalEntry[]>([]);
   const [userJournalSummary, setUserJournalSummary] =
@@ -59,8 +61,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
       createdAt: new Date(),
       updatedAt: new Date(),
     } as UserJournalEntrySummary);
-  useEffect(() => {
-    const getAllJournalData = async () => {
+     const getAllJournalData = async () => {
       try {
         console.log("Fetching journal data...");
         const data = await getUserJournalSummary();
@@ -72,11 +73,12 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
         console.log(error);
       }
     };
+  useEffect(() => {
     getAllJournalData();
   }, []);
   return (
     <Context.Provider
-      value={{ journal, setJournal, userJournalSummary, setUserJournalSummary }}
+      value={{ journal, setJournal, userJournalSummary, setUserJournalSummary,getAllJournalData }}
     >
       <Toaster />
       {children}
